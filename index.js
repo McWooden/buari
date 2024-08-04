@@ -16,8 +16,6 @@ const client = new Client({
     authStrategy: new LocalAuth()
 });
 
-app.use(express.static(import.meta.dirname));
-
 app.get("/", (req, res) => {
     res.sendFile("index.html", { root: import.meta.dirname });
 });
@@ -46,10 +44,10 @@ client.on('message_create', message => {
 client.initialize();
 const port = 3000;
 server.listen(port, () => {
-  console.log("====================================================");
-  console.log(
-    "\x1b[33mServer siap, \x1b[0msilahkan kunjungi\x1b[36m",
-    `http://localhost:${port}\x1b[0m`
-  );
-  console.log("====================================================");
+    console.log("====================================================");
+    console.log(
+        "\x1b[33mServer siap, \x1b[0msilahkan kunjungi\x1b[36m",
+        `http://localhost:${port}\x1b[0m`
+    );
+    console.log("====================================================");
 });
