@@ -12,7 +12,8 @@ const io = new Server(server);
 const client = new Client({
     puppeteer: {
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    }
+    },
+    authStrategy: new LocalAuth()
 });
 
 app.use(express.static(import.meta.dirname));
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 
 client.on('ready', () => {
     console.log('Client is ready!');
+    io.emit("status", "Client siap!");
 });
 
 client.on('qr', qr => {
