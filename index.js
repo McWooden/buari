@@ -46,31 +46,31 @@ client.on('message_create', async message => {
         client.sendMessage(
         message.from,
         `Selamat Datang di Layanan Aduan dan Konsultasi Kecamatan Magelang Utara. Silahkan pilih Menu dibawah ini
-        Ketik angka untuk memilih Menu Layanan 
-        1. Layanan Aduan 
-        2. Layanan Konsultasi
+Ketik angka untuk memilih Menu Layanan 
+1.Layanan Aduan 
+2.Layanan Konsultasi
         `
         );
     } 
     if (text === "1") {
         client.sendMessage(
         message.from,
-        "Untuk Layanan Aduan, silahkan mengisi data diri Anda terlebih dahulu melalui link form berikut ini \n https://forms.gle/PocYn5cBvGUmChFb7"
+        "Untuk Layanan Aduan, silahkan mengisi data diri Anda terlebih dahulu melalui link form berikut ini \nhttps://forms.gle/PocYn5cBvGUmChFb7\nTerima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara"
         );
     } 
     if (text === "2") {
         client.sendMessage(
         message.from,
         `Selamat Datang di Menu Layanan Konsultasi Kecamatan Magelang Utara. Silahkan pilih menu jenis layanan administrasi yang ingin dikonsultasikan.
-        Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
-        3. Dispensasi Nikah
-        4. Surat Keterangan Tidak Mampu
-        5. Surat Keterangan Waris Tanah
-        6. Surat Keterangan Waris Tabungan
-        7. Surat Keterangan Waris Satu Orang Beda Nama
-        8. Surat Keterangan Administrasi Umum
-        9. Surat Keterangan Domisili Usaha
-        10. Tanya Admin/Operator`
+Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
+3.Dispensasi Nikah
+4.Surat Keterangan Tidak Mampu
+5.Surat Keterangan Waris Tanah
+6.Surat Keterangan Waris Tabungan
+7.Surat Keterangan Waris Satu Orang Beda Nama
+8.Surat Keterangan Administrasi Umum
+9.Surat Keterangan Domisili Usaha
+10.Tanya Admin/Operator`
         );
     } 
     if (text === "3") {
@@ -122,7 +122,7 @@ client.on('message_create', async message => {
     }
     
     if (text === "10") {
-        await client.sendMessage(message.from, "Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini: \n https://forms.gle/PocYn5cBvGUmChFb7 \n untuk selanjutnya akan dijawab langsung oleh admin pada jam kerja");
+        await client.sendMessage(message.from, "Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini:\nhttps://forms.gle/PocYn5cBvGUmChFb7\nuntuk selanjutnya akan dijawab langsung oleh admin pada jam kerja \n Terima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara");
     }    
 });
 
