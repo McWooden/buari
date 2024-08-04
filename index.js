@@ -80,42 +80,42 @@ client.on('message_create', async message => {
         await client.sendMessage(message.from, media);
     }
     if (text === "4") {
-        const media = new MessageMedia.fromFilePath(
+        const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-tidak-mampu.jpg"
         );
         await client.sendMessage(message.from, media);
     }
 
     if (text === "5") {
-        const media = new MessageMedia.fromFilePath(
+        const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-waris-tanah.jpg"
         );
         await client.sendMessage(message.from, media);
     }
     
     if (text === "6") {
-        const media = new MessageMedia.fromFilePath(
+        const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-waris-tabungan.jpg"
         );
         await client.sendMessage(message.from, media);
     }
     
     if (text === "7") {
-        const media = new MessageMedia.fromFilePath(
+        const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-waris-satu-orang-beda-nama.jpg"
         );
         await client.sendMessage(message.from, media);
     }
     
     if (text === "8") {
-        const media = new MessageMedia.fromFilePath(
+        const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-administrasi-umum.jpg"
         );
         await client.sendMessage(message.from, media);
     }
     
     if (text === "9") {
-        const media = new MessageMedia.fromFilePath(
+        const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-domisili-usaha.jpg"
         );
         await client.sendMessage(message.from, media);
