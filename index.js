@@ -16,6 +16,8 @@ const client = new Client({
     authStrategy: new LocalAuth()
 });
 
+app.use(express.static(import.meta.dirname))
+
 app.get("/", (req, res) => {
     res.sendFile("index.html", { root: import.meta.dirname });
 });
@@ -33,11 +35,95 @@ client.on('qr', qr => {
     console.log("QR RECEIVED", Date.now(), qr);
 });
 
-client.on('message_create', message => {
-	if (message.body === 'ping') {
-		// send back "pong" to the chat the message was sent in
+client.on('message_create', async message => {
+	const text = message.body.toLocaleLowerCase();
+    console.log('incoming message', text)
+
+	if (text === 'ping' || text === 'p') {
 		client.sendMessage(message.from, 'pong');
 	}
+    if (text === "?") {
+        client.sendMessage(
+        message.from,
+        `Selamat Datang di Layanan Aduan dan Konsultasi Kecamatan Magelang Utara. Silahkan pilih Menu dibawah ini
+        Ketik angka untuk memilih Menu Layanan 
+        1. Layanan Aduan 
+        2. Layanan Konsultasi
+        `
+        );
+    } 
+    if (text === "1") {
+        client.sendMessage(
+        message.from,
+        "Untuk Layanan Aduan, silahkan mengisi data diri Anda terlebih dahulu melalui link form berikut ini \n https://forms.gle/PocYn5cBvGUmChFb7"
+        );
+    } 
+    if (text === "2") {
+        client.sendMessage(
+        message.from,
+        `Selamat Datang di Menu Layanan Konsultasi Kecamatan Magelang Utara. Silahkan pilih menu jenis layanan administrasi yang ingin dikonsultasikan.
+        Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
+        3. Dispensasi Nikah
+        4. Surat Keterangan Tidak Mampu
+        5. Surat Keterangan Waris Tanah
+        6. Surat Keterangan Waris Tabungan
+        7. Surat Keterangan Waris Satu Orang Beda Nama
+        8. Surat Keterangan Administrasi Umum
+        9. Surat Keterangan Domisili Usaha
+        10. Tanya Admin/Operator`
+        );
+    } 
+    if (text === "3") {
+        const media = MessageMedia.fromFilePath(
+            "./assets/surat-dispensasi-nikah.jpg"
+        );
+        await client.sendMessage(message.from, media);
+    }
+    if (text === "4") {
+        const media = new MessageMedia.fromFilePath(
+            "./assets/surat-keterangan-tidak-mampu.jpg"
+        );
+        await client.sendMessage(message.from, media);
+    }
+
+    if (text === "5") {
+        const media = new MessageMedia.fromFilePath(
+            "./assets/surat-keterangan-waris-tanah.jpg"
+        );
+        await client.sendMessage(message.from, media);
+    }
+    
+    if (text === "6") {
+        const media = new MessageMedia.fromFilePath(
+            "./assets/surat-keterangan-waris-tabungan.jpg"
+        );
+        await client.sendMessage(message.from, media);
+    }
+    
+    if (text === "7") {
+        const media = new MessageMedia.fromFilePath(
+            "./assets/surat-keterangan-waris-satu-orang-beda-nama.jpg"
+        );
+        await client.sendMessage(message.from, media);
+    }
+    
+    if (text === "8") {
+        const media = new MessageMedia.fromFilePath(
+            "./assets/surat-keterangan-administrasi-umum.jpg"
+        );
+        await client.sendMessage(message.from, media);
+    }
+    
+    if (text === "9") {
+        const media = new MessageMedia.fromFilePath(
+            "./assets/surat-keterangan-domisili-usaha.jpg"
+        );
+        await client.sendMessage(message.from, media);
+    }
+    
+    if (text === "10") {
+        await client.sendMessage(message.from, "Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini: \n https://forms.gle/PocYn5cBvGUmChFb7 \n untuk selanjutnya akan dijawab langsung oleh admin pada jam kerja");
+    }    
 });
 
 
