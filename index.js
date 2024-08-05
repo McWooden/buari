@@ -8,6 +8,7 @@ import { createServer } from "http";
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
+const port = 3000;
 
 const client = new Client({
     puppeteer: {
@@ -23,7 +24,7 @@ app.get("/", (req, res) => {
 });
 
 client.on('ready', () => {
-    console.log('Client is ready!');
+    console.log('Client siap!');
     io.emit("status", "Client siap!");
 });
 
@@ -32,7 +33,7 @@ client.on('qr', qr => {
         io.emit("qr", url);
         io.emit("status", "Silahkan pindai!");
     });
-    console.log("QR RECEIVED", Date.now(), qr);
+    console.log("Kode QR didapatkan, silahkan pergi ke", `http://localhost:${port}`, 'untuk memindai', Date.now());
 });
 
 client.on('message_create', async message => {
@@ -55,7 +56,7 @@ Ketik angka untuk memilih Menu Layanan
     if (text === "1") {
         client.sendMessage(
         message.from,
-        "Untuk Layanan Aduan, silahkan mengisi data diri Anda terlebih dahulu melalui link form berikut ini \nhttps://forms.gle/PocYn5cBvGUmChFb7\nTerima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara"
+        "Untuk Layanan Aduan, silahkan mengisi data diri Anda terlebih dahulu melalui link form berikut ini \https://forms.gle/QrquLQyXA4dp4ZgbA\nTerima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara"
         );
     } 
     if (text === "2") {
@@ -122,13 +123,12 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
     }
     
     if (text === "10") {
-        await client.sendMessage(message.from, "Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini:\nhttps://forms.gle/PocYn5cBvGUmChFb7\nuntuk selanjutnya akan dijawab langsung oleh admin pada jam kerja \n Terima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara");
+        await client.sendMessage(message.from, "Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini:\https://forms.gle/QrquLQyXA4dp4ZgbA\nuntuk selanjutnya akan dijawab langsung oleh admin pada jam kerja \n Terima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara");
     }    
 });
 
 
 client.initialize();
-const port = 3000;
 server.listen(port, () => {
     console.log("====================================================");
     console.log(
