@@ -8,7 +8,7 @@ import { createServer } from "http";
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
-const port = 3002;
+const port = 3003;
 
 const client = new Client({
     puppeteer: {
@@ -37,13 +37,13 @@ client.on('qr', qr => {
 });
 
 client.on('message_create', async message => {
-	const text = message.body.toLocaleLowerCase();
+	const text = message.body.toLowerCase();
     console.log('incoming message', text)
 
 	if (text === 'ping' || text === 'p') {
 		client.sendMessage(message.from, 'pong');
 	}
-    if (text === "?") {
+    if (text === 'y') {
         client.sendMessage(
         message.from,
         `Selamat Datang di Layanan Aduan dan Konsultasi Kecamatan Magelang Utara. Silahkan pilih Menu dibawah ini
@@ -78,52 +78,65 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
         const media = MessageMedia.fromFilePath(
             "./assets/surat-dispensasi-nikah.jpg"
         );
-        await client.sendMessage(message.from, media);
+        await client.sendMessage(message.from, media)
+        await client.sendMessage(message.from, " Apabila Anda Mau Kembali Ke Menu Utama Ketik Y");
+        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},30000);
     }
     if (text === "4") {
         const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-tidak-mampu.jpg"
         );
-        await client.sendMessage(message.from, media);
+        await client.sendMessage(message.from, media)
+        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
+        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
 
     if (text === "5") {
         const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-waris-tanah.jpg"
         );
-        await client.sendMessage(message.from, media);
+        await client.sendMessage(message.from, media)
+        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
+        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
     
     if (text === "6") {
         const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-waris-tabungan.jpg"
         );
-        await client.sendMessage(message.from, media);
+        await client.sendMessage(message.from, media)
+        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
+        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
     
     if (text === "7") {
         const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-waris-satu-orang-beda-nama.jpg"
         );
-        await client.sendMessage(message.from, media);
+        await client.sendMessage(message.from, media)
+        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
+        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
     
     if (text === "8") {
         const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-administrasi-umum.jpg"
         );
-        await client.sendMessage(message.from, media);
+        await client.sendMessage(message.from, media)
+        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
+        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
     
     if (text === "9") {
         const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-domisili-usaha.jpg"
         );
-        await client.sendMessage(message.from, media);
+        await client.sendMessage(message.from, media)
+        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);//20 detik dalam ms
     }
     
     if (text === "10") {
-        await client.sendMessage(message.from, "Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini:\nhttps://forms.gle/6bYtxcPmcXmiwcUd6\nuntuk selanjutnya akan dijawab langsung oleh admin pada jam kerja \n Terima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara");
+        await client.sendMessage(message.from, "Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini:\https://forms.gle/QrquLQyXA4dp4ZgbA\nuntuk selanjutnya akan dijawab langsung oleh admin pada jam kerja \n Terima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara");
     }    
 });
 
