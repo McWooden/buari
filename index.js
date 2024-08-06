@@ -8,7 +8,7 @@ import { createServer } from "http";
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
-const port = 3000;
+const port = 3002;
 
 const client = new Client({
     puppeteer: {
