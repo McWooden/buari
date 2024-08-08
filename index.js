@@ -136,10 +136,9 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
 
     if (!message.fromMe) {
         lastMessageTime[chatId] = setTimeout(() => {
-            // client.sendMessage(chatId, 'Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara!');
             client.sendMessage(chatId, `Terima kasih sudah menggunakan Layanan Konsultasi Kecamatan Magelang Utara. Jika ada yang bisa dibantu kembali, silahkan ketik “y”. 
 
-Sampai jumpa 😊`)}, 5000);
+Sampai jumpa 😊`)}, 180000);
     }
 });
 
