@@ -8,7 +8,8 @@ import { createServer } from "http";
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
-const port = 3003;
+const port = 3000
+let lastMessageTime = {}; // chatId pengguna akan disimpan disini
 
 const client = new Client({
     puppeteer: {
@@ -33,12 +34,16 @@ client.on('qr', qr => {
         io.emit("qr", url);
         io.emit("status", "Silahkan pindai!");
     });
-    console.log("Kode QR didapatkan, silahkan pergi ke", `http://localhost:${port}`, 'untuk memindai', Date.now());
+    console.log(
+        "\x1b[33mAyo pergi untuk memindai, \x1b[0msilahkan kunjungi\x1b[36m",
+        `http://localhost:${port}\x1b[0m`, Date.now()
+    );
 });
 
 client.on('message_create', async message => {
 	const text = message.body.toLowerCase();
     console.log('incoming message', text)
+    const chatId = message.from;
 
 	if (text === 'ping' || text === 'p') {
 		client.sendMessage(message.from, 'pong');
@@ -49,8 +54,7 @@ client.on('message_create', async message => {
         `Selamat Datang di Layanan Aduan dan Konsultasi Kecamatan Magelang Utara. Silahkan pilih Menu dibawah ini
 Ketik angka untuk memilih Menu Layanan 
 1.Layanan Aduan 
-2.Layanan Konsultasi
-        `
+2.Layanan Konsultasi`
         );
     } 
     if (text === "1") {
@@ -79,16 +83,12 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
             "./assets/surat-dispensasi-nikah.jpg"
         );
         await client.sendMessage(message.from, media)
-        await client.sendMessage(message.from, " Apabila Anda Mau Kembali Ke Menu Utama Ketik Y");
-        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},30000);
     }
     if (text === "4") {
         const media = MessageMedia.fromFilePath(
             "./assets/surat-keterangan-tidak-mampu.jpg"
         );
         await client.sendMessage(message.from, media)
-        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
-        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
 
     if (text === "5") {
@@ -96,8 +96,6 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
             "./assets/surat-keterangan-waris-tanah.jpg"
         );
         await client.sendMessage(message.from, media)
-        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
-        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
     
     if (text === "6") {
@@ -105,8 +103,6 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
             "./assets/surat-keterangan-waris-tabungan.jpg"
         );
         await client.sendMessage(message.from, media)
-        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
-        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
     
     if (text === "7") {
@@ -114,8 +110,6 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
             "./assets/surat-keterangan-waris-satu-orang-beda-nama.jpg"
         );
         await client.sendMessage(message.from, media)
-        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
-        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
     
     if (text === "8") {
@@ -123,8 +117,6 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
             "./assets/surat-keterangan-administrasi-umum.jpg"
         );
         await client.sendMessage(message.from, media)
-        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);
-        await client.sendMessage(message.from, " Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara");
     }
     
     if (text === "9") {
@@ -132,21 +124,33 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
             "./assets/surat-keterangan-domisili-usaha.jpg"
         );
         await client.sendMessage(message.from, media)
-        setTimeout(()=>{client.sendMessage(message.from, "Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara")},20000);//20 detik dalam ms
     }
     
     if (text === "10") {
         await client.sendMessage(message.from, "Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini:\https://forms.gle/QrquLQyXA4dp4ZgbA\nuntuk selanjutnya akan dijawab langsung oleh admin pada jam kerja \n Terima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara");
-    }    
+    }
+
+    if (lastMessageTime[chatId]) {
+        clearTimeout(lastMessageTime[chatId]);
+    }
+
+    if (!message.fromMe) {
+        lastMessageTime[chatId] = setTimeout(() => {
+            // client.sendMessage(chatId, 'Terima kasih Anda telah menggunakan Layanan Konsultasi Kecamatan Magelang Utara!');
+            client.sendMessage(chatId, `Terima kasih sudah menggunakan Layanan Konsultasi Kecamatan Magelang Utara. Jika ada yang bisa dibantu kembali, silahkan ketik “y”. 
+
+Sampai jumpa 😊`)}, 5000);
+    }
 });
 
 
 client.initialize();
 server.listen(port, () => {
-    console.log("====================================================");
+    console.log("==================================");
     console.log(
-        "\x1b[33mServer siap, \x1b[0msilahkan kunjungi\x1b[36m",
-        `http://localhost:${port}\x1b[0m`
+        "\x1b[33mServer\x1b[36m",
+        `http://localhost:${port}\x1b[0m`,
+        '\x1b[33msiap!\x1b[0m'
     );
-    console.log("====================================================");
+    console.log("==================================");
 });
