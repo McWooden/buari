@@ -59,6 +59,11 @@
             max-width: 1095px;
             margin: 0 auto;
         }
+        .base {
+            width: 100%;
+            padding: 2rem;
+            min-height: 352px;
+        }
         .card {
             width: 100%;
             padding: 2rem;
@@ -151,11 +156,19 @@
           <div id="qrcode"></div>
         </div>
       </div>
+
+      <div class="base">
+        <p>Terakhir dilihat: <span id="last-seen"></span></p>
+        <p>Nilai</p>
+      </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
+      socket.on("last-seen", function (src) {
+        document.getElementById("last-seen").innerHTML = src;
+      });
       socket.on("qr", function (src) {
         var img = document.createElement("img");
         img.src = src;
