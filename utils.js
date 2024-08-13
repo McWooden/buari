@@ -1,0 +1,40 @@
+import fs from 'fs/promises'
+import path from 'path'
+
+const dirname = import.meta.dirname
+
+export async function ratingsFind() {
+    const filePath = path.join(dirname, 'data-ratings.json')
+
+    try {
+        const data = await fs.readFile(filePath, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            await fs.writeFile(filePath, '[]');
+            return []
+        } else {
+            throw error;
+        }
+    }
+}
+
+export async function findUserFromDataById(data, userId) {
+    const exitingUser = await data.find(rating => rating.userId === userId)
+
+    if (exitingUser) {
+        ratings[existingRatingIndex] = {
+            userId: message.from,
+            rating: nilai,
+            timestamp: new Date().toISOString()
+        }
+        return user
+    } else {
+        ratings.push({
+            userId: message.from,
+            rating: nilai,
+            timestamp: new Date().toISOString()
+        })
+        return 
+    }
+}

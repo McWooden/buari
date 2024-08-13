@@ -6,6 +6,7 @@ import { toDataURL } from "qrcode"
 import { createServer } from "http"
 import path from 'path'
 import fs from 'fs/promises'
+import { findUserFromDataById, ratingsFind } from "./utils"
 
 const dirname = import.meta.dirname
 const app = express()
@@ -158,35 +159,15 @@ nilai 1`)
         }
     
         try {
-            const filePath = path.join(dirname, 'data-ratings.json')
-            let ratings = []
+            let ratings = await ratingsFind()
+            const userExist = await findUserFromDataById(ratings, message.from)
 
-            try {
-                const data = await fs.readFile(filePath, 'utf8');
-                ratings = JSON.parse(data);
-            } catch (error) {
-                if (error.code === 'ENOENT') {
-                    await fs.writeFile(filePath, '[]');
-                } else {
-                    throw error;
-                }
-            }
-    
-            const existingRatingIndex = ratings.findIndex(rating => rating.userId === message.from)
-
-            if (existingRatingIndex !== -1) {
-                ratings[existingRatingIndex] = {
-                    userId: message.from,
-                    rating: nilai,
-                    timestamp: new Date().toISOString()
-                }
-            } else {
-                ratings.push({
-                    userId: message.from,
-                    rating: nilai,
-                    timestamp: new Date().toISOString()
-                })
-            }
+            if (userExist) ratings = ratings.filter(rating => rating.userId !== message.from)
+            ratings.push({
+                userId: message.from,
+                rating: nilai,
+                timestamp: new Date().toISOString()
+            })
 
     
             await fs.writeFile(filePath, JSON.stringify(ratings, null, 2))
@@ -205,10 +186,13 @@ nilai 1`)
 
 
     if (!message.fromMe) {
+        let ratings = await ratingsFind()
+        const userExist = await findUserFromDataById(ratings, message.from)
+
         lastMessageTime[chatId] = setTimeout(() => {
             client.sendMessage(chatId, `Terima kasih sudah menggunakan Layanan Konsultasi Kecamatan Magelang Utara. Jika ada yang bisa dibantu kembali, silahkan ketik “y”. 
 
-Sampai jumpa 😊`)}, 180000)
+${!userExist && 'Silahkan nilai aplikasi kami dengan mengetik _nilai<spasi>Angka_\n'} Sampai jumpa 😊`)}, 180000)
     }
 })
 
