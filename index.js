@@ -66,8 +66,8 @@ Ketik angka untuk memilih Menu Layanan
     } 
     if (text === "1") {
         client.sendMessage(
-        message.from,
-        "Untuk Layanan Aduan, silahkan mengisi data diri Anda terlebih dahulu melalui link form berikut ini \https://forms.gle/QrquLQyXA4dp4ZgbA\nTerima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara"
+        message.from, `Untuk Layanan Aduan, silahkan mengisi data diri Anda terlebih dahulu melalui link form berikut ini
+https://forms.gle/Csa6de5Q28ceGm9q7`
         )
     } 
     if (text === "2") {
@@ -134,7 +134,11 @@ Pilih Menu dengan memilih nomor sesuai dengan jenis layanan
     }
     
     if (text === "10") {
-        await client.sendMessage(message.from, "Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini:\https://forms.gle/QrquLQyXA4dp4ZgbA\nuntuk selanjutnya akan dijawab langsung oleh admin pada jam kerja \n Terima kasih telah menggunakan layanan aduan dan konsultasi Kecamtan Magelang Utara")
+        await client.sendMessage(message.from, `Untuk Layanan Konsultasi Tanya Admin, silahkan mengisi formulir berikut ini:
+https://forms.gle/Csa6de5Q28ceGm9q7
+
+untuk selanjutnya akan dijawab langsung oleh admin pada jam kerja
+`)
     }
 
     if (text.startsWith('nilai') && !message.fromMe) {
