@@ -79,6 +79,28 @@
             flex-direction: column;
             width: 100%;
         }
+        .averege-card {
+          display: flex;
+          flex-direction: column;
+          gap: .5rem;
+          width: 100%;
+          margin: 1em 0;
+        }
+        .averege-card-body {
+          display: flex;
+          gap: .5rem;
+          align-items: center;
+          width: fit-content;
+          margin: auto;
+          padding: .5rem 2rem;
+        }
+        #averege {
+          font-size: 3rem;
+        }
+        .averege-card img {
+          width: 45px;
+          height: 45px;
+        }
         #qrcode {
             flex: 1;
             display: flex;
@@ -111,7 +133,6 @@
       <h2>McWooden Whatsapp Bot</h2>
       <div class="card">
         <h3>Jalankan Bot WhatsApp di komputer Anda</h3>
-        <div class="status">Bot status: <span id="status">Loading...</span></div>
         <div class="card-body">
           <div id="tutorial">
             <ol>
@@ -158,27 +179,99 @@
       </div>
 
       <div class="base">
+        <div class="status">Bot status: <span id="status">-</span></div>
         <p>Terakhir dilihat: <span id="last-seen"></span></p>
-        <p>Nilai</p>
+        <div class="averege-card">
+          <h3>Nilai</h3>
+          <div class="averege-card-body">
+            <span id="averege"></span>
+            <img src="./assets/star.png" alt="bintang">
+          </div>
+        </div>
+        <div id="table" class="container mx-auto mt-8"></div>
       </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io();
-      socket.on("last-seen", function (src) {
-        document.getElementById("last-seen").innerHTML = src;
-      });
-      socket.on("qr", function (src) {
-        var img = document.createElement("img");
-        img.src = src;
-        document.getElementById("qrcode").innerHTML = "";
-        document.getElementById("qrcode").appendChild(img);
-      });
 
-      socket.on("status", function (status) {
-        document.getElementById("status").innerHTML = status;
+    <script>
+      function createImageQR(data) {
+        var img = document.createElement("img")
+        img.src = data
+        document.getElementById("qrcode").innerHTML = ""
+        document.getElementById("qrcode").appendChild(img)
+      }
+      function setStatus(data) {
+        document.getElementById("status").innerHTML = data
+      }
+      var socket = io()
+      socket.io.on("error", (error) => {
+        setStatus('Server terputus!')
       });
+      socket.on("last-seen", function(src) {
+        document.getElementById("last-seen").innerHTML = src.timestamp
+        setStatus(src.status)
+      })
+      socket.on("qr", function(src) {
+        createImageQR(src)
+      })
+
+      fetch('http://localhost:3000/data-ratings')
+        .then(res => res.json())
+        .then(res => {
+          const tableContainer = document.getElementById('table')
+          res.data.forEach(element => {
+            
+          });
+          let ratings = 0
+          let tableHTML = `
+            <table class="w-full border-collapse border border-gray-300">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="border border-gray-300 px-4 py-2">ID Pengguna</th>
+                  <th class="border border-gray-300 px-4 py-2">Peringkat</th>
+                  <th class="border border-gray-300 px-4 py-2">Waktu</th>
+                </tr>
+              </thead>
+              <tbody>
+          `
+    
+          res.data.forEach(item => {
+            ratings += item.rating
+            tableHTML += `
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">${item.userId}</td>
+                <td class="border border-gray-300 px-4 py-2">${item.rating}</td>
+                <td class="border border-gray-300 px-4 py-2">${item.timestamp}</td>
+              </tr>
+            `
+          })
+    
+          tableHTML += `
+              </tbody>
+            </table>
+          `
+    
+          tableContainer.innerHTML = tableHTML
+
+          const totalRating = res.data.reduce((sum, obj) => sum + obj.rating, 0)
+          const averageRating = totalRating / res.data.length
+          document.getElementById("averege").innerHTML = averageRating.toFixed(1)
+        })
+        .catch(err => {
+          console.error('Terjadi masalah dengan operasi fetch:', err)
+        })
+
+
+
+      fetch('http://localhost:3000/qrcode')
+        .then(res => res.json())
+        .then(res => {
+          if (res.data) createImageQR(res.data)
+        })
+        .catch(err => {
+          console.error('Terjadi masalah dengan operasi fetch:', err)
+        })
     </script>
     <!-- import from codewithmcwooden -->
   </body>
