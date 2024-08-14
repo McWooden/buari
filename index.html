@@ -34,6 +34,15 @@
             line-height: normal;
             color: #41525d;
         }
+        header {
+          display: flex;
+          align-items: center;
+          gap: .5rem;
+        }
+        header img {
+          width: 32px;
+          height: 32px;
+        }
         .status {
             font-weight: 300;
             color: #41525d;
@@ -120,6 +129,16 @@
             color: #3b4a54;
         }
 
+        thead {
+          background-color: rgb(243 244 246);
+          padding: .5rem;
+        }
+
+        td {
+          border: 1px solid rgb(229 231 235);
+          padding: .5rem .25rem;
+        }
+
         @media screen and (min-width: 640px) {
             .card-body {
             flex-direction: row;
@@ -130,7 +149,10 @@
   <body>
     <div class="container">
       <div class="container-before"></div>
-      <h2>McWooden Whatsapp Bot</h2>
+      <header>
+        <img src="./assets/technical-support.png" alt="technical-support">
+        <h2>McWooden Whatsapp Bot</h2>
+      </header>
       <div class="card">
         <h3>Jalankan Bot WhatsApp di komputer Anda</h3>
         <div class="card-body">
