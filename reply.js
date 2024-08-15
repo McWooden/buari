@@ -117,7 +117,7 @@ nilai 5`)
     
         try {
             let ratings = await ratingsFind()
-            const userExist = await findRatingsById(ratings, message.from)
+            const userExist = await findRatingsById(message.from)
 
             if (userExist) ratings = ratings.filter(rating => rating.userId !== message.from)
             ratings.push({

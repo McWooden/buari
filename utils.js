@@ -39,8 +39,8 @@ export async function findRatingsById(userId) {
     const data = await ratingsFind()
     const exitingUser = await data.find(rating => rating.userId === userId)
 
-    if (exitingUser) return user
-    return {}
+    if (exitingUser) return exitingUser
+    return null
 }
 
 export function formatTimestamp(timestamp) {
