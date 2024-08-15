@@ -76,7 +76,7 @@ client.on('message_create', async message => {
         lastMessageTime[chatId] = setTimeout(() => {
             client.sendMessage(chatId, `Terima kasih sudah menggunakan Layanan Konsultasi Kecamatan Magelang Utara. Jika ada yang bisa dibantu kembali, silahkan ketik “y”. 
 
-${pesanMenilai} Sampai jumpa 😊`)}, 5000)
+${pesanMenilai} Sampai jumpa 😊`)}, 420000)
     }
 })
 
