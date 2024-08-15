@@ -71,11 +71,12 @@ client.on('message_create', async message => {
 
     if (!message.fromMe) {
         const userExist = await findRatingsById(message.from)
+        let pesanMenilai = userExist ? 'Silahkan nilai aplikasi kami dengan mengetik _nilai<spasi>Angka_\n' : ''
 
         lastMessageTime[chatId] = setTimeout(() => {
             client.sendMessage(chatId, `Terima kasih sudah menggunakan Layanan Konsultasi Kecamatan Magelang Utara. Jika ada yang bisa dibantu kembali, silahkan ketik “y”. 
 
-${!userExist && 'Silahkan nilai aplikasi kami dengan mengetik _nilai<spasi>Angka_\n'} Sampai jumpa 😊`)}, 180000)
+${pesanMenilai} Sampai jumpa 😊`)}, 5000)
     }
 })
 

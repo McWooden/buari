@@ -21,9 +21,9 @@ export async function ratingsFind() {
 export async function ratingsGetAAverege() {
     const data = await ratingsFind()
     const totalRating = data.reduce((sum, obj) => sum + obj.rating, 0)
-    const averageRating = totalRating / res.data.length
+    const averageRating = totalRating / data.length
     return {
-        averege: averageRating,
+        averege: averageRating.toFixed(1),
         length: data.length
     }
 }
@@ -32,7 +32,7 @@ export async function findById(data, userId) {
     const exitingUser = await data.find(rating => rating.userId === userId)
 
     if (exitingUser) return user
-    return {}
+    return null
 }
 
 export async function findRatingsById(userId) {
