@@ -25,7 +25,7 @@ export async function findUserFromDataById(data, userId) {
     if (exitingUser) {
         return exitingUser
     } else {
-        return []
+        return {}
     }
 }
 
