@@ -4,7 +4,7 @@ const { Client, LocalAuth } = Whatsapp
 import { Server } from "socket.io"
 import { toDataURL } from "qrcode"
 import { createServer } from "http"
-import { findRatingsById, formatTimestamp, ratingsFind } from "./utils.js"
+import { findById, findRatingsById, formatTimestamp, ratingsFind } from "./utils.js"
 import reply from "./reply.js"
 
 const dirname = import.meta.dirname
@@ -70,7 +70,7 @@ client.on('message_create', async message => {
 
 
     if (!message.fromMe) {
-        const userExist = await findRatingsById(ratings, message.from)
+        const userExist = await findRatingsById(message.from)
 
         lastMessageTime[chatId] = setTimeout(() => {
             client.sendMessage(chatId, `Terima kasih sudah menggunakan Layanan Konsultasi Kecamatan Magelang Utara. Jika ada yang bisa dibantu kembali, silahkan ketik “y”. 
