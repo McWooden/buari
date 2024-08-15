@@ -23,19 +23,9 @@ export async function findUserFromDataById(data, userId) {
     const exitingUser = await data.find(rating => rating.userId === userId)
 
     if (exitingUser) {
-        ratings[existingRatingIndex] = {
-            userId: message.from,
-            rating: nilai,
-            timestamp: new Date().toISOString()
-        }
-        return user
+        return exitingUser
     } else {
-        ratings.push({
-            userId: message.from,
-            rating: nilai,
-            timestamp: new Date().toISOString()
-        })
-        return 
+        return []
     }
 }
 
