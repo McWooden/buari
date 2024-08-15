@@ -1,7 +1,7 @@
 import Whatsapp from "whatsapp-web.js"
 const { MessageMedia } = Whatsapp
 import fs from 'fs/promises'
-import { findUserFromDataById, ratingsFilePath, ratingsFind, ratingsGetAAverege } from "./utils.js"
+import { findRatingsById, ratingsFilePath, ratingsFind, ratingsGetAAverege } from "./utils.js"
 
 export default async function reply(client, message) {
     const text = message.body.toLowerCase()
@@ -117,7 +117,7 @@ nilai 5`)
     
         try {
             let ratings = await ratingsFind()
-            const userExist = await findUserFromDataById(ratings, message.from)
+            const userExist = await findRatingsById(ratings, message.from)
 
             if (userExist) ratings = ratings.filter(rating => rating.userId !== message.from)
             ratings.push({

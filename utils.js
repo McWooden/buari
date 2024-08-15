@@ -28,7 +28,8 @@ export async function ratingsGetAAverege() {
     }
 }
 
-export async function findUserFromDataById(data, userId) {
+export async function findRatingsById(userId) {
+    const data = await ratingsFind()
     const exitingUser = await data.find(rating => rating.userId === userId)
 
     if (exitingUser) return user
