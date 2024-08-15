@@ -44,7 +44,7 @@ app.get("/qrcode", async (req, res) => {
 
 client.on('ready', () => {
     console.log('Client siap!')
-    status = 'CLient siap!'
+    status = 'Client siap!'
 })
 
 client.on('qr', qr => {

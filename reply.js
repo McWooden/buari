@@ -1,13 +1,20 @@
 import Whatsapp from "whatsapp-web.js"
 const { MessageMedia } = Whatsapp
 import fs from 'fs/promises'
+import { findUserFromDataById, ratingsFilePath, ratingsFind, ratingsGetAAverege } from "./utils.js"
 
 export default async function reply(client, message) {
     const text = message.body.toLowerCase()
     console.log('incoming message', text)
     
-    if (text === 'ping' || text === 'p') {
+    if (text === 'ping') {
 		client.sendMessage(message.from, 'pong')
+	}
+    if (text === 'hai' && !message.fromMe) {
+		client.sendMessage(message.from, 'Halo')
+	}
+    if (text === 'halo' && !message.fromMe) {
+		client.sendMessage(message.from, 'hai')
 	}
     if (text === 'y') {
         client.sendMessage(
@@ -98,14 +105,11 @@ untuk selanjutnya akan dijawab langsung oleh admin pada jam kerja
     if (text.startsWith('nilai') && !message.fromMe) {
         const nilai = Number(text.split(' ')[1])
         if (!nilai) {
-            return await client.sendMessage(message.from, `Nilai layanan kami antara 1 hingga 5 dengan format _nilai<spasi>Angka_
-    
+            const ratings = await ratingsGetAAverege()
+            return await client.sendMessage(message.from, `Nilai ${ratings.averege}⭐ (${ratings.length} pengguna)
+Nilai layanan kami antara 1 hingga 5 dengan format *nilai<spasi>Angka*
 contoh:
-nilai 5
-nilai 4
-nilai 3
-nilai 2
-nilai 1`)
+nilai 5`)
         }
         if (nilai < 1 || nilai > 5) {
             return await client.sendMessage(message.from, "Nilai yang kamu masukkan tidak pas. Masukkan nilai antara 1 hingga 5 dengan format _nilai<spasi>Angka_")
@@ -123,7 +127,7 @@ nilai 1`)
             })
 
     
-            await fs.writeFile(filePath, JSON.stringify(ratings, null, 2))
+            await fs.writeFile(ratingsFilePath, JSON.stringify(ratings, null, 2))
     
             await client.sendMessage(message.from, `Terima kasih atas penilaian Anda. Nilai ${nilai} telah disimpan.`)
         } catch (error) {

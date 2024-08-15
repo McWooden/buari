@@ -2,16 +2,15 @@ import fs from 'fs/promises'
 import path from 'path'
 
 const dirname = import.meta.dirname
+const ratingsFilePath = path.join(dirname, 'data-ratings.json')
 
 export async function ratingsFind() {
-    const filePath = path.join(dirname, 'data-ratings.json')
-
     try {
-        const data = await fs.readFile(filePath, 'utf8');
+        const data = await fs.readFile(ratingsFilePath, 'utf8');
         return JSON.parse(data);
     } catch (error) {
         if (error.code === 'ENOENT') {
-            await fs.writeFile(filePath, '[]');
+            await fs.writeFile(ratingsFilePath, '[]');
             return []
         } else {
             throw error;
@@ -19,24 +18,21 @@ export async function ratingsFind() {
     }
 }
 
+export async function ratingsGetAAverege() {
+    const data = await ratingsFind()
+    const totalRating = data.reduce((sum, obj) => sum + obj.rating, 0)
+    const averageRating = totalRating / res.data.length
+    return {
+        averege: averageRating,
+        length: data.length
+    }
+}
+
 export async function findUserFromDataById(data, userId) {
     const exitingUser = await data.find(rating => rating.userId === userId)
 
-    if (exitingUser) {
-        ratings[existingRatingIndex] = {
-            userId: message.from,
-            rating: nilai,
-            timestamp: new Date().toISOString()
-        }
-        return user
-    } else {
-        ratings.push({
-            userId: message.from,
-            rating: nilai,
-            timestamp: new Date().toISOString()
-        })
-        return 
-    }
+    if (exitingUser) return user
+    return {}
 }
 
 export function formatTimestamp(timestamp) {
@@ -51,3 +47,5 @@ export function formatTimestamp(timestamp) {
         hour12: false
     }).replace(',', '');
 }
+
+export { ratingsFilePath }
