@@ -70,7 +70,7 @@ client.on('message_create', async message => {
 
 
     if (!message.fromMe) {
-        let ratings = await ratingsFind()
+        let ratings = await findUserFromDataById(message.from)
         const userExist = await findUserFromDataById(ratings, message.from)
 
         lastMessageTime[chatId] = setTimeout(() => {
